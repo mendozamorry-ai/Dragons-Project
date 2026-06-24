@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dragons Project — Free Webinar</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#FFD700;--orange:#FF6B00;--red:#CC1100;--dark:#080808;--card:#111}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--dark);color:#fff;overflow-x:hidden;min-height:100vh}
+.pg{display:none}.pg.on{display:block;animation:fadeUp .5s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes glow{0%,100%{box-shadow:0 0 22px rgba(255,107,0,.5),0 0 44px rgba(255,107,0,.2)}50%{box-shadow:0 0 44px rgba(255,107,0,.85),0 0 88px rgba(255,107,0,.4)}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes flicker{0%,100%{filter:brightness(1)}50%{filter:brightness(1.12)}}
+
+/* NAV DOTS */
+.nav{display:flex;justify-content:center;gap:10px;padding:16px;background:rgba(0,0,0,.6);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100}
+.dot{height:10px;border-radius:5px;background:#2a2a2a;transition:all .4s cubic-bezier(.4,0,.2,1)}
+.dot.on{width:32px;background:linear-gradient(90deg,#FF6B00,#FFD700);box-shadow:0 0 12px rgba(255,107,0,.6)}
+.dot.done{width:10px;background:rgba(255,107,0,.45)}
+.dot.off{width:10px}
+
+/* HEADER */
+.hdr{text-align:center;padding:44px 20px 16px;background:linear-gradient(180deg,rgba(90,10,0,.4) 0%,transparent 100%)}
+.logo-wrap{animation:flicker 3s ease-in-out infinite}
+.logo{font-family:'Cinzel',serif;font-size:clamp(2rem,7vw,3.8rem);font-weight:900;letter-spacing:5px;background:linear-gradient(180deg,#FFE500 0%,#FF6B00 55%,#CC1100 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 16px rgba(255,100,0,.65));display:block}
+.logo-sub{font-size:.72rem;letter-spacing:7px;color:#777;text-transform:uppercase;margin-top:5px}
+
+/* HERO */
+.hero{padding:52px 20px 42px;text-align:center;background:radial-gradient(ellipse 80% 55% at 50% 0%,rgba(130,22,0,.38) 0%,transparent 70%);position:relative}
+.badge{display:inline-block;background:linear-gradient(135deg,rgba(255,107,0,.14),rgba(200,30,0,.14));border:1px solid rgba(255,107,0,.38);color:#FF8C00;padding:7px 22px;border-radius:30px;font-size:.8rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:22px}
+.h1{font-family:'Cinzel',serif;font-size:clamp(1.65rem,5vw,2.9rem);font-weight:700;line-height:1.25;max-width:760px;margin:0 auto 18px}
+.h1 .acc{background:linear-gradient(90deg,#FFD700,#FF6B00);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-p{font-size:clamp(.95rem,2.4vw,1.12rem);color:#bbb;max-width:580px;margin:0 auto 32px;line-height:1.78}
+
+/* VIDEO BOX */
+.vbox{max-width:680px;margin:0 auto 38px;border-radius:18px;overflow:hidden;border:1.5px solid rgba(255,107,0,.22);box-shadow:0 0 55px rgba(200,30,0,.13),0 0 110px rgba(200,30,0,.05);aspect-ratio:16/9;background:linear-gradient(135deg,#0c0101,#1d0400,#0c0101);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;cursor:pointer;position:relative}
+.vbox::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(255,80,0,.08) 0%,transparent 70%)}
+.play{width:76px;height:76px;background:linear-gradient(135deg,#FF8C00,#CC1100);border-radius:50%;display:flex;align-items:center;justify-content:center;animation:glow 2.2s ease-in-out infinite,bob 3.2s ease-in-out infinite;position:relative;z-index:1;transition:transform .2s}
+.vbox:hover .play{transform:scale(1.1)}
+.play svg{width:28px;height:28px;fill:#fff;margin-left:5px}
+.vlbl{color:#777;font-size:.86rem;position:relative;z-index:1}
+
+/* BENEFIT PILLS */
+.pills{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:720px;margin:0 auto 38px}
+.pill{background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.2);color:#FFD700;padding:8px 18px;border-radius:30px;font-size:.83rem;font-weight:500}
+
+/* CTA BTN */
+.cta-wrap{text-align:center;margin-bottom:28px}
+.btn{display:inline-block;padding:17px 52px;background:linear-gradient(135deg,#FF8C00,#CC1100);color:#fff;font-size:1.02rem;font-weight:700;border-radius:50px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:1.5px;animation:glow 2.2s ease-in-out infinite;transition:transform .2s;font-family:'Inter',sans-serif;text-decoration:none}
+.btn:hover{transform:translateY(-3px) scale(1.02)}.btn:active{transform:translateY(0)}
+.urg{color:#777;font-size:.8rem;margin-top:12px}
+
+/* SECTIONS */
+.sec{padding:62px 20px;max-width:980px;margin:0 auto}
+.sec-h{font-family:'Cinzel',serif;font-size:clamp(1.45rem,4vw,2.2rem);font-weight:700;text-align:center;margin-bottom:38px}
+.sec-h .acc{background:linear-gradient(90deg,#FFD700,#FF6B00);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* LEARN GRID */
+.lgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.lcard{background:var(--card);border:1px solid rgba(255,107,0,.14);border-radius:16px;padding:26px;transition:all .3s;position:relative;overflow:hidden}
+.lcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#CC1100,#FFD700);opacity:.7}
+.lcard:hover{border-color:rgba(255,107,0,.4);transform:translateY(-4px);box-shadow:0 12px 32px rgba(255,80,0,.12)}
+.lcard .ico{font-size:1.75rem;margin-bottom:12px}
+.lcard p{color:#ccc;line-height:1.67;font-size:.93rem}
+
+/* FOR YOU */
+.fy-wrap{background:linear-gradient(180deg,#0d0000,#140300,#0d0000);padding:62px 20px}
+.fy-inner{max-width:880px;margin:0 auto}
+.fygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:13px}
+.fyrow{display:flex;align-items:center;gap:13px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:16px 18px;transition:all .3s}
+.fyrow:hover{background:rgba(255,107,0,.07);border-color:rgba(255,107,0,.24)}
+.chk{width:30px;height:30px;min-width:30px;background:linear-gradient(135deg,#FF6B00,#CC1100);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700}
+.fyrow span{color:#ddd;font-size:.9rem;line-height:1.4}
+
+/* BOTTOM CTA */
+.btm-cta{text-align:center;padding:70px 20px;background:radial-gradient(ellipse at center,rgba(110,22,0,.3) 0%,transparent 68%)}
+.btm-cta h2{font-family:'Cinzel',serif;font-size:clamp(1.4rem,3.5vw,2rem);margin-bottom:12px}
+.btm-cta p{color:#bbb;max-width:480px;margin:0 auto 32px;line-height:1.72}
+
+/* PAGE 2: FORM */
+.fp-wrap{min-height:100vh;background:linear-gradient(180deg,#0d0000 0%,#090909 100%)}
+.fp-inner{max-width:560px;margin:0 auto;padding:50px 20px 60px}
+.back-btn{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:#666;cursor:pointer;font-size:.88rem;padding:0;margin-bottom:28px;transition:color .2s;font-family:'Inter',sans-serif}
+.back-btn:hover{color:#aaa}
+.bonus{background:linear-gradient(135deg,rgba(255,215,0,.08),rgba(255,107,0,.08));border:1px solid rgba(255,215,0,.24);border-radius:16px;padding:22px;text-align:center;margin-bottom:28px}
+.bonus .bico{font-size:2rem}
+.bonus h3{color:#FFD700;font-size:1.02rem;margin:7px 0 5px}
+.bonus p{color:#ccc;font-size:.86rem;line-height:1.55}
+.bonus em{color:#FF8C00;font-style:italic}
+.fcard{background:var(--card);border:1px solid rgba(255,107,0,.2);border-radius:20px;padding:35px 30px}
+.fcard-h{font-family:'Cinzel',serif;font-size:1.32rem;text-align:center;margin-bottom:5px}
+.fcard-sub{color:#888;font-size:.86rem;text-align:center;margin-bottom:26px}
+.fg{margin-bottom:20px}
+.fg label{display:block;font-size:.86rem;color:#ccc;font-weight:500;margin-bottom:7px}
+.fg input{width:100%;padding:13px 17px;background:#1a1a1a;border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;font-size:.97rem;outline:none;transition:border-color .3s,box-shadow .3s;font-family:'Inter',sans-serif}
+.fg input:focus{border-color:rgba(255,107,0,.5);box-shadow:0 0 0 3px rgba(255,107,0,.1)}
+.fg input::placeholder{color:#444}
+.fg input.err{border-color:rgba(255,80,80,.5);box-shadow:0 0 0 3px rgba(255,80,80,.08)}
+.emsg{color:#ff7070;font-size:.76rem;margin-top:5px;display:none}
+.emsg.show{display:block}
+.disc{font-size:.73rem;color:#555;text-align:center;margin-top:16px;line-height:1.62;padding:0 5px}
+
+/* PAGE 3: THANK YOU */
+.ty-pg{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;background:radial-gradient(ellipse at center,rgba(85,16,0,.42) 0%,#080808 62%)}
+.ty-ico{font-size:5rem;animation:bob 2.6s ease-in-out infinite;margin-bottom:14px;display:block}
+.ty-card{max-width:520px;width:100%;background:var(--card);border:1px solid rgba(255,107,0,.24);border-radius:24px;padding:46px 36px;box-shadow:0 0 80px rgba(255,80,0,.07)}
+.ty-card h1{font-family:'Cinzel',serif;font-size:clamp(1.8rem,5vw,2.5rem);background:linear-gradient(90deg,#FFD700,#FF6B00);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:13px}
+.ty-card>p{color:#bbb;line-height:1.77;margin-bottom:22px}
+.nxt{background:rgba(255,107,0,.07);border:1px solid rgba(255,107,0,.2);border-radius:14px;padding:22px;margin:18px 0 28px;text-align:left}
+.nxt h3{color:#FF8C00;font-size:.78rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.nxt p{color:#ccc;font-size:.93rem;line-height:1.62}
+.btn-fb{display:inline-flex;align-items:center;gap:10px;padding:16px 38px;background:linear-gradient(135deg,#1877F2,#0d5fb5);color:#fff;font-size:.97rem;font-weight:700;border-radius:50px;border:none;cursor:pointer;font-family:'Inter',sans-serif;text-decoration:none;box-shadow:0 4px 22px rgba(24,119,242,.4);transition:transform .2s,box-shadow .2s}
+.btn-fb:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(24,119,242,.6)}
+.ty-footer{margin-top:24px;color:#555;font-size:.83rem}
+
+/* CANVAS */
+#fc{position:fixed;bottom:0;left:0;width:100%;height:130px;pointer-events:none;z-index:0;opacity:.45}
+
+/* SITE FOOTER */
+.site-foot{text-align:center;padding:24px 20px;color:#2e2e2e;font-size:.76rem;border-top:1px solid #111}
+
+@media(max-width:580px){
+.fcard{padding:24px 16px}
+.ty-card{padding:34px 20px}
+.lcard{padding:20px}
+}
+</style>
+</head>
+<body>
+
+<canvas id="fc"></canvas>
+
+<!-- PROGRESS DOTS -->
+<div class="nav">
+  <div class="dot on" id="d1"></div>
+  <div class="dot off" id="d2"></div>
+  <div class="dot off" id="d3"></div>
+</div>
+
+<!-- ========= PAGE 1: LANDING ========= -->
+<div class="pg on" id="pg1">
+  <div class="hdr">
+    <div class="logo-wrap">
+      <span class="logo">🐉 DRAGONS PROJECT</span>
+      <div class="logo-sub">Empowering Filipinos Online</div>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="badge">🔥 Free Webinar Invitation</div>
+    <h1 class="h1">Discover How Ordinary Filipinos Are<br><span class="acc">Creating Extra Income Online</span></h1>
+    <p class="hero-p">Whether you're an OFW, employee, freelancer, parent, or business owner — this free webinar shows you how people are using digital skills, AI tools, and online marketing to build additional income streams.</p>
+
+    <div style="max-width:680px;margin:0 auto 38px;border-radius:18px;overflow:hidden;border:1.5px solid rgba(255,107,0,.22);box-shadow:0 0 55px rgba(200,30,0,.13),0 0 110px rgba(200,30,0,.05);aspect-ratio:16/9;position:relative">
+      <iframe src="https://www.youtube.com/embed/p4OQshGB9Dk?autoplay=1&mute=1&loop=1&playlist=p4OQshGB9Dk" title="Dragons Project Video" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%"></iframe>
+    </div>
+
+    <div class="pills">
+      <div class="pill">✅ Beginner-Friendly</div>
+      <div class="pill">✅ No Tech Skills Needed</div>
+      <div class="pill">✅ Learn at Your Own Pace</div>
+      <div class="pill">✅ Suits Busy Schedules</div>
+    </div>
+
+    <div class="cta-wrap">
+      <button class="btn" onclick="goTo(2)">🎟 Reserve My Free Seat</button>
+      <div class="urg">⚡ Limited webinar slots available each week</div>
+    </div>
+  </div>
+
+  <!-- WHAT YOU'LL LEARN -->
+  <div class="sec">
+    <h2 class="sec-h">What You'll <span class="acc">Learn</span></h2>
+    <div class="lgrid">
+      <div class="lcard"><div class="ico">💡</div><p>How online income opportunities work in today's digital economy</p></div>
+      <div class="lcard"><div class="ico">📈</div><p>Why many Filipinos are exploring multiple income streams — and why it matters now</p></div>
+      <div class="lcard"><div class="ico">🛠</div><p>Simple strategies being used by beginners to get started online</p></div>
+      <div class="lcard"><div class="ico">🤖</div><p>How AI tools are helping ordinary people become more productive and earn more</p></div>
+      <div class="lcard"><div class="ico">🐉</div><p>An overview of the Dragons Project community and training system</p></div>
+      <div class="lcard"><div class="ico">🌐</div><p>Practical next steps you can take regardless of your background or experience</p></div>
+    </div>
+  </div>
+
+  <!-- IS THIS FOR YOU -->
+  <div class="fy-wrap">
+    <div class="fy-inner">
+      <h2 class="sec-h">Is This <span class="acc">For You?</span></h2>
+      <div class="fygrid">
+        <div class="fyrow"><div class="chk">✓</div><span>Looking for extra income opportunities</span></div>
+        <div class="fyrow"><div class="chk">✓</div><span>Curious about online business</span></div>
+        <div class="fyrow"><div class="chk">✓</div><span>Want to learn new digital skills</span></div>
+        <div class="fyrow"><div class="chk">✓</div><span>OFW looking for additional income streams</span></div>
+        <div class="fyrow"><div class="chk">✓</div><span>Employee wanting a side hustle</span></div>
+        <div class="fyrow"><div class="chk">✓</div><span>Parent wanting flexible opportunities</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM CTA -->
+  <div class="btm-cta">
+    <h2>Ready to <span style="background:linear-gradient(90deg,#FFD700,#FF6B00);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Take the First Step?</span></h2>
+    <p>Join thousands of Filipinos exploring new ways to earn online. Your seat is completely free — claim it now before it fills up.</p>
+    <button class="btn" onclick="goTo(2)">🐉 CLAIM MY FREE WEBINAR SEAT</button>
+    <div class="urg" style="margin-top:14px">⚡ Limited webinar slots available each week</div>
+  </div>
+
+  <div class="site-foot">© 2026 Dragons Project · For educational purposes only · Results not guaranteed</div>
+</div>
+
+<!-- ========= PAGE 2: FORM ========= -->
+<div class="pg" id="pg2">
+  <div class="fp-wrap">
+    <div class="fp-inner">
+      <button class="back-btn" onclick="goTo(1)">← Back</button>
+
+      <div class="bonus">
+        <div class="bico">🎁</div>
+        <h3>Bonus for All Attendees</h3>
+        <p>Register now and receive our free guide:<br><em>"5 Beginner-Friendly Ways to Start Earning Online in 2026"</em></p>
+      </div>
+
+      <div class="fcard">
+        <div class="fcard-h">Reserve Your Free Seat</div>
+        <div class="fcard-sub">Fill in your details below to confirm your spot</div>
+
+        <div class="fg">
+          <label>Full Name *</label>
+          <input type="text" id="fname" placeholder="e.g. Juan dela Cruz">
+          <div class="emsg" id="e-fname">Please enter your full name.</div>
+        </div>
+        <div class="fg">
+          <label>Mobile Number *</label>
+          <input type="tel" id="fmobile" placeholder="e.g. 09XXXXXXXXX">
+          <div class="emsg" id="e-fmobile">Please enter a valid mobile number.</div>
+        </div>
+        <div class="fg">
+          <label>Facebook Profile Link *</label>
+          <input type="text" id="ffb" placeholder="e.g. facebook.com/yourname">
+          <div class="emsg" id="e-ffb">Please enter your Facebook profile link.</div>
+        </div>
+        <div class="fg">
+          <label>Email Address *</label>
+          <input type="email" id="femail" placeholder="e.g. juan@email.com">
+          <div class="emsg" id="e-femail">Please enter a valid email address.</div>
+        </div>
+
+        <button class="btn" style="width:100%;text-align:center;margin-top:6px" onclick="submitForm()">🐉 CLAIM MY FREE WEBINAR SEAT</button>
+
+        <p class="disc">Results vary from person to person and depend on effort, skills, consistency, and individual circumstances. This webinar is for educational purposes only and does not guarantee income.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========= PAGE 3: THANK YOU ========= -->
+<div class="pg" id="pg3">
+  <div class="ty-pg">
+    <span class="ty-ico">🎉</span>
+    <div class="ty-card">
+      <h1>You're In!</h1>
+      <p>Your free webinar seat has been reserved. Welcome to the Dragons Project community! Check your email for confirmation details and reminders.</p>
+
+      <div class="nxt">
+        <h3>👉 Next Step</h3>
+        <p>Join our Facebook Messenger group to receive the webinar link, schedule reminders, and early access to exclusive resources from the Dragons Project team.</p>
+      </div>
+
+      <a href="https://m.me/j/Abbo8geqNNAzdlrb/?send_source=gc%3Acopy_invite_link_t" target="_blank" class="btn-fb">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        JOIN THE GROUP
+      </a>
+
+      <div class="ty-footer">We look forward to seeing you inside the Dragons Project webinar! 🐉</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function goTo(n){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.getElementById('pg'+n).classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+  for(let i=1;i<=3;i++){
+    const d=document.getElementById('d'+i);
+    d.className='dot '+(i<n?'done':i===n?'on':'off');
+  }
+}
+
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxqzhh339ZsO2WjLAmplUxAkZU2s6lYqB695zWejtp0ITy_nuSEhGBl1rcQA3ZoEiWD/exec';
+
+function submitForm(){
+  const fields=[
+    {id:'fname',eid:'e-fname',ok:v=>v.trim().length>=2},
+    {id:'fmobile',eid:'e-fmobile',ok:v=>/^[0-9+\-\s]{7,15}$/.test(v.trim())},
+    {id:'ffb',eid:'e-ffb',ok:v=>v.trim().length>=5},
+    {id:'femail',eid:'e-femail',ok:v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim())}
+  ];
+  let ok=true;
+  fields.forEach(f=>{
+    const inp=document.getElementById(f.id);
+    const em=document.getElementById(f.eid);
+    if(!f.ok(inp.value)){inp.classList.add('err');em.classList.add('show');ok=false}
+    else{inp.classList.remove('err');em.classList.remove('show')}
+  });
+  if(ok){
+    const btn=document.querySelector('#pg2 .btn');
+    btn.textContent='Submitting...';btn.style.opacity='.7';btn.disabled=true;
+    const params=new URLSearchParams({
+      name:document.getElementById('fname').value.trim(),
+      mobile:document.getElementById('fmobile').value.trim(),
+      facebook:document.getElementById('ffb').value.trim(),
+      email:document.getElementById('femail').value.trim()
+    });
+    fetch(`${SCRIPT_URL}?${params}`,{mode:'no-cors'})
+      .catch(()=>{})
+      .finally(()=>goTo(3));
+  }
+}
+
+['fname','fmobile','ffb','femail'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',function(){
+    this.classList.remove('err');
+    document.getElementById('e-'+id).classList.remove('show');
+  });
+});
+
+// Fire particle canvas
+const cv=document.getElementById('fc'),cx=cv.getContext('2d');
+function resize(){cv.width=window.innerWidth;cv.height=130}
+resize();window.addEventListener('resize',resize);
+const pts=[];
+class P{
+  constructor(){this.reset()}
+  reset(){
+    this.x=Math.random()*cv.width;
+    this.y=cv.height+10;
+    this.s=Math.random()*4+1.5;
+    this.vy=Math.random()*1.5+.8;
+    this.vx=(Math.random()-.5)*.8;
+    this.a=1;this.da=Math.random()*.015+.008;
+    this.g=Math.round(Math.random()*180);
+  }
+  step(){this.x+=this.vx;this.y-=this.vy;this.a-=this.da;this.s*=.993;if(this.a<=0||this.s<.3)this.reset()}
+  draw(){
+    cx.save();cx.globalAlpha=this.a*.6;
+    const g=cx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.s);
+    g.addColorStop(0,`rgba(255,${this.g},0,1)`);g.addColorStop(1,`rgba(200,0,0,0)`);
+    cx.fillStyle=g;cx.beginPath();cx.arc(this.x,this.y,this.s,0,Math.PI*2);cx.fill();cx.restore();
+  }
+}
+for(let i=0;i<90;i++){const p=new P();p.a=Math.random();p.y=Math.random()*cv.height;pts.push(p)}
+(function loop(){cx.clearRect(0,0,cv.width,cv.height);pts.forEach(p=>{p.step();p.draw()});requestAnimationFrame(loop)})();
+</script>
+</body>
+</html>
